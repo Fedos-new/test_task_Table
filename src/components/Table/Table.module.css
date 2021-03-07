@@ -1,0 +1,21 @@
+.table {
+    border-collapse: collapse;
+    background-color: #f2f2f2;
+    margin: 0 auto;
+    margin-top: 60px;
+    width: 100%;
+    max-width: 800px;
+}
+
+td, .cell {
+    border: 4px solid #979797;
+    height: 75px;
+    font-size: 24px;
+    font-weight: 500;
+    padding-left: 30px;
+    width: 23%;
+}
+
+.firstRow {
+    width: 31%;
+}
