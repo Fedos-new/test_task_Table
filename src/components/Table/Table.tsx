@@ -2,39 +2,36 @@ import React from "react";
 import style from './Table.module.css'
 
 
-function Table() {
+type PropsType = {
+    titleMarkets: (string | undefined)[]
+    valuesRows: (string | number)[][]
+}
+
+
+function Table(props: PropsType) {
 
 
 return (
     <div>
         <table className={style.table}>
             <thead>
-            <tr >
-                <td>Pair name/market</td>
-                <td>First</td>
-                <td>Second</td>
-                <td>Third</td>
+            <tr>
+                <td className={style.firstRow}>Pair name/market</td>
+                {
+                    props.titleMarkets.map((t, index) => <td key={index}>{t}</td>)
+                }
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>RUB/CUPCAKE</td>
-                <td>80.38</td>
-                <td>-1.99</td>
-                <td>-1.99</td>
-            </tr>
-            <tr>
-                <td>USD/CUPCAKE</td>
-                <td>80.38</td>
-                <td>-1.99</td>
-                <td>-1.99</td>
-            </tr>
-            <tr>
-                <td>EUR/CUPCAKE</td>
-                <td>80.38</td>
-                <td>-1.99</td>
-                <td>-1.99</td>
-            </tr>
+            {
+                props.valuesRows.map((el, index) => <tr key={index}>
+                        <td>{el[0]}</td>
+                        <td className={style.minPrice}>{el[1]}</td>
+                        <td>{el[2]}</td>
+                        <td>{el[3]}</td>
+                    </tr>
+                )
+            }
             </tbody>
         </table>
     </div>

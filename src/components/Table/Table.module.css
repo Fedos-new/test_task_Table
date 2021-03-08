@@ -19,3 +19,8 @@ td, .cell {
 .firstRow {
     width: 31%;
 }
+
+.minPrice {
+    background: #0091fe;
+    color: #ffffff;
+}
