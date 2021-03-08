@@ -76,8 +76,7 @@ export const marketReducer = (state: TableMarketType = initialState, action: Act
 }
 
 
-export const setRatesAC = (newMarketData: MarketType, id: number) => ({
-    type: SET_DATA_RATES,
+export const setRatesAC = (newMarketData: MarketType, id: number) => ({type: SET_DATA_RATES,
     newMarketData,
     id
 } as const)

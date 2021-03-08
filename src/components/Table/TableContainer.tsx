@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../bll/store";
 import {fetchData, MarketType} from "../../bll/reducer";
 import {getValueRowsForTable} from "../../utils/selector-data";
-
+import style from "./Table.module.css";
 
 function TableContainer() {
 
@@ -15,6 +15,20 @@ function TableContainer() {
 
     console.log(markets)
     const valuesRows = getValueRowsForTable(markets)
+
+    const minPrices = getValueRowsForTable(markets).reduce((acc: number[], el: (string | number)[]) => {
+        const findMin = (arr: number[]) => Math.min(...arr)
+        let min = findMin(el.splice(1) as number[])
+        acc.push(min)
+        return acc
+    }, []);
+
+    const setStyle = (num: number) => {
+        return `${!minPrices.includes(num) 
+            ? style.cell
+            : style.minPrice}`
+    }
+
 
     useEffect(() => {
         dispatch(fetchData(1, 'First'))
@@ -27,6 +41,7 @@ function TableContainer() {
         <Table
             titleMarkets={titleMarkets}
             valuesRows={valuesRows}
+            setStyle={setStyle}
         />
     );
 }

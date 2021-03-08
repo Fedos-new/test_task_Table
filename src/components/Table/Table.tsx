@@ -5,6 +5,7 @@ import style from './Table.module.css'
 type PropsType = {
     titleMarkets: (string | undefined)[]
     valuesRows: (string | number)[][]
+    setStyle: (num: number) => string | undefined
 }
 
 
@@ -26,9 +27,9 @@ return (
             {
                 props.valuesRows.map((el, index) => <tr key={index}>
                         <td>{el[0]}</td>
-                        <td className={style.minPrice}>{el[1]}</td>
-                        <td>{el[2]}</td>
-                        <td>{el[3]}</td>
+                        <td className={props.setStyle(el[1] as number)}>{el[1]}</td>
+                        <td className={props.setStyle(el[2] as number)}>{el[2]}</td>
+                        <td className={props.setStyle(el[3] as number)}>{el[3]}</td>
                     </tr>
                 )
             }
