@@ -14,7 +14,3 @@ export const handleResponse = (obj: any) => {
         timestamp: obj.timestamp
     };
 };
-
-
-
-

@@ -24,3 +24,9 @@ td, .cell {
     background: #0091fe;
     color: #ffffff;
 }
+.error {
+    text-align: center;
+    padding: 30px;
+    color: #974b4b;
+    font-size: 18px;
+}

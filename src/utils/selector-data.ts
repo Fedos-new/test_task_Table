@@ -13,4 +13,3 @@ export const getValueRowsForTable = (state: MarketType[]) => {
     })
     return result
 }
-

@@ -1,8 +1,11 @@
 const SET_DATA_RATES = 'tableMarket/SET_DATA_RATES';
+const SET_FETCH_ERROR = 'tableMarket/SET_FETCH_ERROR';
+const SET_INIT_DATA_TABLE = 'tableMarket/SET_INIT_DATA_TABLE';
+export const FETCH_DATA = 'tableMarket/FETCH_DATA';
+export const FETCH_DATA_POLLING = 'tableMarket/FETCH_DATA_POLLING';
 
 const initialState: TableMarketType = {
     markets: [
-
         {
             id: 1,
             name: "First",
@@ -43,7 +46,10 @@ const initialState: TableMarketType = {
             timestamp: 0
         },
     ],
-
+    initData: {
+        isInitData: false,
+        error: ''
+    }
 }
 
 
@@ -55,7 +61,6 @@ export const marketReducer = (state: TableMarketType = initialState, action: Act
                 markets: state.markets.map(m => m.id === action.newMarketData.id
                     ? {
                         ...m,
-                        // id: action.id,
                         rates: {
                             "RUB/CUPCAKE": action.newMarketData.rates["RUB/CUPCAKE"],
                             "USD/CUPCAKE": action.newMarketData.rates["USD/CUPCAKE"],
@@ -69,21 +74,35 @@ export const marketReducer = (state: TableMarketType = initialState, action: Act
                     : m
                 )
             }
-
+        case SET_INIT_DATA_TABLE:
+            return {
+                ...state,
+                initData: {
+                    ...state.initData,
+                    isInitData: true
+                }
+            }
+        case SET_FETCH_ERROR:
+            return {
+                ...state,
+                initData: {
+                    error: action.errorText,
+                    isInitData: false
+                }
+            }
         default:
             return state
     }
 }
 
 
-export const setRatesAC = (newMarketData: MarketType, id: number) => ({type: SET_DATA_RATES,
-    newMarketData,
-    id
-} as const)
+export const setRatesAC = (newMarketData: MarketType,id: number) => ({type: SET_DATA_RATES, newMarketData, id} as const)
+export const setFetchErrorAC = (errorStatus: string) => ({type: SET_FETCH_ERROR, errorText: errorStatus} as const)
+export const setInitDataAC = (isInitData: boolean) => ({type: SET_INIT_DATA_TABLE, isInitData: isInitData} as const)
 
 
-export const fetchData = (id: number, endPoint: string,) => ({type: 'FETCH-DATA', id, endPoint,})
-
+export const fetchData = (id: number, endPoint: string) => ({type: FETCH_DATA, id, endPoint})
+export const fetchDataWithPolling = (id: number, endPoint: string) => ({type: FETCH_DATA_POLLING, id, endPoint})
 
 export type MarketType = {
     id: number,
@@ -99,8 +118,13 @@ export type MarketType = {
     timestamp: number
 }
 export type TableMarketType = {
-    markets: MarketType[]
-
+    markets: MarketType[],
+    initData: {
+        isInitData: boolean
+        error: string
+    }
 }
-type ActionsType = ReturnType<typeof setRatesAC>
-
+type ActionsType =
+    | ReturnType<typeof setRatesAC>
+    | ReturnType<typeof setFetchErrorAC>
+    | ReturnType<typeof setInitDataAC>

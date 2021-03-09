@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import Table from "./Table";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../bll/store";
-import {fetchData, MarketType} from "../../bll/reducer";
+import {fetchData, fetchDataWithPolling, MarketType} from "../../bll/reducer";
 import {getValueRowsForTable} from "../../utils/selector-data";
 import style from "./Table.module.css";
 
@@ -10,10 +10,11 @@ function TableContainer() {
 
     const dispatch = useDispatch()
     const markets = useSelector<AppRootState, MarketType[]>(state => state.tableMarket.markets)
+    const error = useSelector<AppRootState, string>(state => state.tableMarket.initData.error)
+    const isInitData = useSelector<AppRootState, boolean>(state => state.tableMarket.initData.isInitData)
     const titleMarkets = [markets[0].name, markets[1].name, markets[2].name]
 
 
-    console.log(markets)
     const valuesRows = getValueRowsForTable(markets)
 
     const minPrices = getValueRowsForTable(markets).reduce((acc: number[], el: (string | number)[]) => {
@@ -24,24 +25,31 @@ function TableContainer() {
     }, []);
 
     const setStyle = (num: number) => {
-        return `${!minPrices.includes(num) 
+        return `${!minPrices.includes(num) || !isInitData
             ? style.cell
             : style.minPrice}`
     }
-
 
     useEffect(() => {
         dispatch(fetchData(1, 'First'))
         dispatch(fetchData(2, 'Second'))
         dispatch(fetchData(3, 'Third'))
-
     }, [])
+
+
+    useEffect(() => {
+        dispatch(fetchDataWithPolling(1, 'First/poll'))
+        dispatch(fetchDataWithPolling(2, 'Second/poll'))
+        dispatch(fetchDataWithPolling(3, 'Third/poll'))
+    }, [])
+
 
     return (
         <Table
             titleMarkets={titleMarkets}
             valuesRows={valuesRows}
             setStyle={setStyle}
+            error={error}
         />
     );
 }

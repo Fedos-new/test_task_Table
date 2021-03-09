@@ -6,11 +6,11 @@ type PropsType = {
     titleMarkets: (string | undefined)[]
     valuesRows: (string | number)[][]
     setStyle: (num: number) => string | undefined
+    error:string
 }
 
 
 function Table(props: PropsType) {
-
 
 return (
     <div>
@@ -35,6 +35,9 @@ return (
             }
             </tbody>
         </table>
+
+        {props.error &&
+        <div className={style.error}>Error loading data: {props.error}</div>}
     </div>
 );
 }
