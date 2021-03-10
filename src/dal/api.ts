@@ -13,5 +13,5 @@ export const currencyApi = {
         const response = await instance.get(`${endPoint}`);
         response.data = {...handleResponse(response.data), id}
         return response
-    },
-};
+    }
+}

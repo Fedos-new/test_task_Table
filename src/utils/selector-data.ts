@@ -1,4 +1,4 @@
-import {MarketType} from "../bll/reducer";
+import {MarketType} from '../bll/reducer';
 
 export const getValueRowsForTable = (state: MarketType[]) => {
     const rowNames = Object.keys(state[0].rates)

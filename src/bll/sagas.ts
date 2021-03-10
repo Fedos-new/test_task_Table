@@ -1,42 +1,54 @@
-import {call, put, takeEvery} from "redux-saga/effects";
+import {call, put, takeEvery} from 'redux-saga/effects';
+import {SagaIterator} from '@redux-saga/core';
+import {all} from 'redux-saga/effects'
 import {
-    fetchData,
-    fetchDataWithPolling,
     setFetchErrorAC,
     setInitDataAC,
     setRatesAC,
     FETCH_DATA,
-    FETCH_DATA_POLLING
-} from "./reducer";
-import {currencyApi} from "../dal/api";
+    FETCH_DATA_POLLING,
+} from './reducer';
+import {currencyApi} from '../dal/api';
 
-function* fetchDataWorkerSaga(action: ReturnType<typeof fetchData>) {
+
+function* fetchDataWorkerSaga(): SagaIterator {
     try {
-        // @ts-ignore
-        const response = yield call(currencyApi.setRates, action.id, action.endPoint)
-        yield put(setRatesAC(response.data, action.id))
-        yield put(setInitDataAC(true))
+        const [first, second, third] = yield all([
+            call(currencyApi.setRates, 1, 'first'),
+            call(currencyApi.setRates, 2, 'second'),
+            call(currencyApi.setRates, 3, 'third'),
+        ])
+        yield all([
+            put(setRatesAC(first.data)),
+            put(setRatesAC(second.data)),
+            put(setRatesAC(third.data)),
+            put(setFetchErrorAC('')),
+            put(setInitDataAC(true))
+        ])
+
     } catch (error) {
         yield put(setFetchErrorAC(error.message))
     }
 }
 
-function* fetchDataPollingWorkerSaga(action: ReturnType<typeof fetchData>) {
-    try {
-        // @ts-ignore
-        const response = yield call(currencyApi.setRates, action.id, action.endPoint)
-        if (response.status === 502) {
-            yield put(fetchDataWithPolling(action.id, action.endPoint))
-        } else if (response.status !== 200) {
-            console.log(`${response.statusText}. Retry will be in 1 second`);
-            yield new Promise(resolve => setTimeout(resolve, 1000))
-            yield put(fetchDataWithPolling(action.id, action.endPoint))
-        } else {
-            yield put(setRatesAC(response.data, action.id))
-            yield put(fetchDataWithPolling(action.id, action.endPoint))
+function* fetchDataPollingWorkerSaga(): SagaIterator {
+    while (true) {
+        try {
+            const [firstP, secondP, thirdP] = yield all([
+                call(currencyApi.setRates, 1, 'first/poll'),
+                call(currencyApi.setRates, 2, 'second/poll'),
+                call(currencyApi.setRates, 3, 'third/poll'),
+            ])
+
+            yield all([
+                put(setRatesAC(firstP.data)),
+                put(setRatesAC(secondP.data)),
+                put(setRatesAC(thirdP.data))
+            ])
+        } catch (error) {
+            yield put(setFetchErrorAC(error.message))
+
         }
-    } catch (error) {
-        yield put(setFetchErrorAC(error.message))
     }
 }
 
@@ -44,3 +56,4 @@ export function* rootWatcher() {
     yield takeEvery(FETCH_DATA, fetchDataWorkerSaga)
     yield takeEvery(FETCH_DATA_POLLING, fetchDataPollingWorkerSaga)
 }
+

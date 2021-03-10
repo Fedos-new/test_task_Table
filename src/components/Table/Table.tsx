@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import style from './Table.module.css'
 
 
@@ -36,10 +36,9 @@ return (
             </tbody>
         </table>
 
-        {props.error &&
-        <div className={style.error}>Error loading data: {props.error}</div>}
+        {props.error && <div className={style.error}>Error loading data: {props.error}</div>}
     </div>
-);
+)
 }
 
 export default Table;

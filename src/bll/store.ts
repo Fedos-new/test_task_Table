@@ -1,8 +1,8 @@
-import {marketReducer} from "./reducer";
-import {combineReducers, createStore} from "redux";
-import {applyMiddleware} from "redux";
+import {marketReducer} from './reducer';
+import {combineReducers, createStore} from 'redux';
+import {applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga'
-import {rootWatcher} from "./sagas";
+import {rootWatcher} from './sagas';
 
 
 const rootReducer = combineReducers({

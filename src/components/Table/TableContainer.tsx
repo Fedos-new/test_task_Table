@@ -1,10 +1,10 @@
-import React, {useEffect} from "react";
-import Table from "./Table";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../bll/store";
-import {fetchData, fetchDataWithPolling, MarketType} from "../../bll/reducer";
-import {getValueRowsForTable} from "../../utils/selector-data";
-import style from "./Table.module.css";
+import React, {useEffect} from 'react';
+import Table from './Table';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootState} from '../../bll/store';
+import {fetchData, fetchDataWithPolling, MarketType} from '../../bll/reducer';
+import {getValueRowsForTable} from '../../utils/selector-data';
+import style from './Table.module.css';
 
 function TableContainer() {
 
@@ -13,7 +13,6 @@ function TableContainer() {
     const error = useSelector<AppRootState, string>(state => state.tableMarket.initData.error)
     const isInitData = useSelector<AppRootState, boolean>(state => state.tableMarket.initData.isInitData)
     const titleMarkets = [markets[0].name, markets[1].name, markets[2].name]
-
 
     const valuesRows = getValueRowsForTable(markets)
 
@@ -31,18 +30,9 @@ function TableContainer() {
     }
 
     useEffect(() => {
-        dispatch(fetchData(1, 'First'))
-        dispatch(fetchData(2, 'Second'))
-        dispatch(fetchData(3, 'Third'))
+        dispatch(fetchData())
+        dispatch(fetchDataWithPolling())
     }, [])
-
-
-    useEffect(() => {
-        dispatch(fetchDataWithPolling(1, 'First/poll'))
-        dispatch(fetchDataWithPolling(2, 'Second/poll'))
-        dispatch(fetchDataWithPolling(3, 'Third/poll'))
-    }, [])
-
 
     return (
         <Table
