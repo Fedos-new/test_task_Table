@@ -41,4 +41,6 @@ function Table(props: PropsType) {
     )
 }
 
+
+
 export default Table;

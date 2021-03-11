@@ -2,7 +2,9 @@ import React, {useEffect} from 'react';
 import Table from './Table';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootState} from '../../bll/store';
-import {fetchData, fetchDataWithPolling, MarketType} from '../../bll/reducer';
+import {fetchData, fetchDataWithFirstPolling,
+    fetchDataWithThirdPolling,
+    fetchDataWithSecondPolling, MarketType} from '../../bll/reducer';
 import {getValueRowsForTable} from '../../utils/selector-data';
 import style from './Table.module.css';
 
@@ -31,7 +33,9 @@ function TableContainer() {
 
     useEffect(() => {
         dispatch(fetchData())
-        dispatch(fetchDataWithPolling())
+        dispatch(fetchDataWithFirstPolling())
+        dispatch(fetchDataWithSecondPolling())
+        dispatch(fetchDataWithThirdPolling())
     }, [])
 
     return (

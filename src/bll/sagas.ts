@@ -1,12 +1,13 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {all, call, put, takeEvery} from 'redux-saga/effects';
 import {SagaIterator} from '@redux-saga/core';
-import {all} from 'redux-saga/effects'
 import {
+    FETCH_DATA,
+    FETCH_DATA_FIRST_POLLING,
+    FETCH_DATA_SECOND__POLLING,
+    FETCH_DATA_THIRD_POLLING,
     setFetchErrorAC,
     setInitDataAC,
     setRatesAC,
-    FETCH_DATA,
-    FETCH_DATA_POLLING,
 } from './reducer';
 import {currencyApi} from '../dal/api';
 
@@ -31,20 +32,33 @@ function* fetchDataWorkerSaga(): SagaIterator {
     }
 }
 
-function* fetchDataPollingWorkerSaga(): SagaIterator {
+function* fetchDataFistPollingWorkerSaga(): SagaIterator {
     while (true) {
         try {
-            const [firstP, secondP, thirdP] = yield all([
-                call(currencyApi.setRates, 1, 'first/poll'),
-                call(currencyApi.setRates, 2, 'second/poll'),
-                call(currencyApi.setRates, 3, 'third/poll'),
-            ])
+            const firstP = yield call(currencyApi.setRates, 1, 'first/poll')
+            yield put(setRatesAC(firstP.data))
+        } catch (error) {
+            yield put(setFetchErrorAC(error.message))
+        }
+    }
+}
 
-            yield all([
-                put(setRatesAC(firstP.data)),
-                put(setRatesAC(secondP.data)),
-                put(setRatesAC(thirdP.data))
-            ])
+function* fetchDataSecondPollingWorkerSaga(): SagaIterator {
+    while (true) {
+        try {
+            const secondP = yield call(currencyApi.setRates, 2, 'second/poll')
+            yield put(setRatesAC(secondP.data))
+        } catch (error) {
+            yield put(setFetchErrorAC(error.message))
+        }
+    }
+}
+
+function* fetchDataThirdPollingWorkerSaga(): SagaIterator {
+    while (true) {
+        try {
+            const thirdP = yield call(currencyApi.setRates, 3, 'third/poll')
+            yield put(setRatesAC(thirdP.data))
         } catch (error) {
             yield put(setFetchErrorAC(error.message))
         }
@@ -53,6 +67,8 @@ function* fetchDataPollingWorkerSaga(): SagaIterator {
 
 export function* rootWatcher() {
     yield takeEvery(FETCH_DATA, fetchDataWorkerSaga)
-    yield takeEvery(FETCH_DATA_POLLING, fetchDataPollingWorkerSaga)
+    yield takeEvery(FETCH_DATA_FIRST_POLLING, fetchDataFistPollingWorkerSaga)
+    yield takeEvery(FETCH_DATA_SECOND__POLLING, fetchDataSecondPollingWorkerSaga)
+    yield takeEvery(FETCH_DATA_THIRD_POLLING, fetchDataThirdPollingWorkerSaga)
 }
 
