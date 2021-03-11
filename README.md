@@ -1,4 +1,12 @@
-# Getting Started with Create React App
+
+
+
+# Currency Table
+![ezgif-1-7a86a713a9d3](https://user-images.githubusercontent.com/61763783/110722361-b0c4b300-8244-11eb-9dd0-c9e79de83c14.gif)
+
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
