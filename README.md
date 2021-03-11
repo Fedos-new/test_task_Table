@@ -2,7 +2,10 @@
 
 
 # Currency Table
-![ezgif-1-7a86a713a9d3](https://user-images.githubusercontent.com/61763783/110722361-b0c4b300-8244-11eb-9dd0-c9e79de83c14.gif)
+#### Shows quotes of currencies from the server in real time
+
+![e45454bccf83431](https://user-images.githubusercontent.com/61763783/110745280-93f0a580-826d-11eb-9d3a-97a0297b570a.gif)
+
 
 
 
