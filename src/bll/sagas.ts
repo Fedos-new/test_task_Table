@@ -3,7 +3,7 @@ import {SagaIterator} from '@redux-saga/core';
 import {
     FETCH_DATA,
     FETCH_DATA_FIRST_POLLING,
-    FETCH_DATA_SECOND__POLLING,
+    FETCH_DATA_SECOND_POLLING,
     FETCH_DATA_THIRD_POLLING,
     setFetchErrorAC,
     setInitDataAC,
@@ -68,7 +68,7 @@ function* fetchDataThirdPollingWorkerSaga(): SagaIterator {
 export function* rootWatcher() {
     yield takeEvery(FETCH_DATA, fetchDataWorkerSaga)
     yield takeEvery(FETCH_DATA_FIRST_POLLING, fetchDataFistPollingWorkerSaga)
-    yield takeEvery(FETCH_DATA_SECOND__POLLING, fetchDataSecondPollingWorkerSaga)
+    yield takeEvery(FETCH_DATA_SECOND_POLLING, fetchDataSecondPollingWorkerSaga)
     yield takeEvery(FETCH_DATA_THIRD_POLLING, fetchDataThirdPollingWorkerSaga)
 }
 

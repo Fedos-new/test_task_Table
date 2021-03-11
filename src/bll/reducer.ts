@@ -3,7 +3,7 @@ const SET_FETCH_ERROR = 'tableMarket/SET_FETCH_ERROR';
 const SET_INIT_DATA_TABLE = 'tableMarket/SET_INIT_DATA_TABLE';
 export const FETCH_DATA = 'tableMarket/FETCH_DATA';
 export const FETCH_DATA_FIRST_POLLING = 'tableMarket/FETCH_DATA_FIRST_POLLING';
-export const FETCH_DATA_SECOND__POLLING = 'tableMarket/FETCH_DATA_SECOND__POLLING';
+export const FETCH_DATA_SECOND_POLLING = 'tableMarket/FETCH_DATA_SECOND_POLLING';
 export const FETCH_DATA_THIRD_POLLING = 'tableMarket/FETCH_DATA_THIRD_POLLING';
 
 const initialState: TableMarketType = {
@@ -105,7 +105,7 @@ export const setInitDataAC = (isInitData: boolean) => ({type: SET_INIT_DATA_TABL
 
 export const fetchData = () => ({type: FETCH_DATA})
 export const fetchDataWithFirstPolling = () => ({type: FETCH_DATA_FIRST_POLLING})
-export const fetchDataWithSecondPolling = () => ({type: FETCH_DATA_SECOND__POLLING})
+export const fetchDataWithSecondPolling = () => ({type: FETCH_DATA_SECOND_POLLING})
 export const fetchDataWithThirdPolling = () => ({type: FETCH_DATA_THIRD_POLLING})
 
 export type MarketType = {
