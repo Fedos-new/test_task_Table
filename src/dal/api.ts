@@ -11,7 +11,18 @@ const instance = axios.create({
 export const currencyApi = {
     async setRates(id: number, endPoint: string) {
         const response = await instance.get(`${endPoint}`);
-        response.data = {...handleResponse(response.data), id}
+        response.data = {...handleResponse(response.data, id)}
         return response
     }
+}
+
+export type ResponseDataOutputType = {
+    rates: {
+        RUB: number,
+        USD: number,
+        EUR: number,
+    },
+    base:string,
+    timestamp: number,
+    date: string
 }

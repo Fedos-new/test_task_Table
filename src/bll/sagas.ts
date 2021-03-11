@@ -22,9 +22,9 @@ function* fetchDataWorkerSaga(): SagaIterator {
             put(setRatesAC(first.data)),
             put(setRatesAC(second.data)),
             put(setRatesAC(third.data)),
-            put(setFetchErrorAC('')),
-            put(setInitDataAC(true))
         ])
+        yield put(setFetchErrorAC(''))
+        yield put(setInitDataAC(true))
 
     } catch (error) {
         yield put(setFetchErrorAC(error.message))
@@ -47,7 +47,6 @@ function* fetchDataPollingWorkerSaga(): SagaIterator {
             ])
         } catch (error) {
             yield put(setFetchErrorAC(error.message))
-
         }
     }
 }

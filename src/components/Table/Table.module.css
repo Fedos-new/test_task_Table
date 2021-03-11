@@ -33,6 +33,10 @@ td, .cell {
 
 
 @media screen and (max-width: 565px) {
+    .table {
+        width: 90%;
+    }
+
     td, .cell {
         border: 3px solid #979797;
         font-size: 0.8em;
